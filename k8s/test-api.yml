@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: api-service
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
 spec:
   type: LoadBalancer
   selector:
@@ -9,7 +11,7 @@ spec:
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 8080
+    targetPort: 80
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -29,6 +31,6 @@ spec:
     spec:
       containers:
       - name: test-api
-        image: lfshr/test-api
+        image: lfshr/test-api:latest
         ports:
         - containerPort: 80
